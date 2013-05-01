@@ -35,6 +35,7 @@ public class MainFrame extends javax.swing.JFrame {
         
         try{
             start();
+            
         }catch(IOException e){
             throw new RuntimeException(e);
         }
