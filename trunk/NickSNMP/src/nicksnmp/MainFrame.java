@@ -6,6 +6,7 @@ package nicksnmp;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.Query;
@@ -25,6 +26,7 @@ import org.snmp4j.smi.Address;
 import org.snmp4j.smi.GenericAddress;
 import org.snmp4j.smi.OID;
 import org.snmp4j.smi.OctetString;
+import org.snmp4j.smi.Variable;
 import org.snmp4j.smi.VariableBinding;
 import org.snmp4j.transport.DefaultUdpTransportMapping;
 
@@ -96,8 +98,39 @@ public class MainFrame extends javax.swing.JFrame {
     }
     
     public String getAsString(OID oid) throws IOException {
-        ResponseEvent event = get(new OID[]{oid});
-        return event.getResponse().get(0).getVariable().toString();
+        ResponseEvent responseEvent = get(new OID[]{oid});        
+        PDU responsePDU=null;                
+        String sVar = null;
+        if (responseEvent != null)
+        {
+            responsePDU = responseEvent.getResponse();
+            if ( responsePDU != null)
+            {
+                Vector <VariableBinding> tmpv = (Vector <VariableBinding>) responsePDU.getVariableBindings();
+                if(tmpv != null)
+                {
+                    for(int k=0; k <tmpv.size();k++)
+                    {
+                        VariableBinding vb = (VariableBinding) tmpv.get(k);
+                        String output = null;
+                        if ( vb.isException())
+                        {
+
+                            String errorstring = vb.getVariable().getSyntaxString();
+                            System.out.println("Error:"+errorstring);
+                        }
+                        else
+                        {
+                            String sOid = vb.getOid().toString();
+                            Variable var = vb.getVariable();
+                            OctetString oct = new OctetString((OctetString)var);
+                            sVar =  oct.toString();                            
+                        }
+                    }
+                }         
+            }
+        }
+        return sVar;
     }
     
     public void getAsString(OID oids, ResponseListener listener){
@@ -410,7 +443,9 @@ public class MainFrame extends javax.swing.JFrame {
        address = "udp:"+txtIp1.getText()+"."+txtIp2.getText()+"."+txtIp3.getText()+"."+txtIp4.getText()+"/"+txtPort.getText();                                  
         try {
             txtAreaResponse.append("-----------------------\n");
-            txtAreaResponse.append(getAsString(new OID("1.3.6.1.2.1.1.1.0")) +"\n");
+            if(rbtnGet.isSelected()){
+                txtAreaResponse.append(getAsString(new OID("1.3.6.1.2.1.1.4.0")) +"\n");
+            }            
             txtAreaResponse.append("-----------------------\n");
         } catch (IOException ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
