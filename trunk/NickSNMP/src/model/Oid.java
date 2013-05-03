@@ -29,7 +29,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Oid.findAll", query = "SELECT o FROM Oid o"),
     @NamedQuery(name = "Oid.findByOidId", query = "SELECT o FROM Oid o WHERE o.oidId = :oidId"),
     @NamedQuery(name = "Oid.findByOidName", query = "SELECT o FROM Oid o WHERE o.oidName = :oidName"),
-    @NamedQuery(name = "Oid.findByOidIndex", query = "SELECT o FROM Oid o WHERE o.oidIndex = :oidIndex")})
+    @NamedQuery(name = "Oid.findByOidIndex", query = "SELECT o FROM Oid o WHERE o.oidIndex = :oidIndex"),
+    @NamedQuery(name = "Oid.findByOwner", query = "SELECT o FROM Oid o WHERE o.ownerMib = :ownerMib")})
 public class Oid implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
