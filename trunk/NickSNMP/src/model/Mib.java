@@ -103,7 +103,7 @@ public class Mib implements Serializable {
 
     @Override
     public String toString() {
-        return "model.Mib[ mibId=" + mibId + " ]";
+        return mibName;
     }
     
 }

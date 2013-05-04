@@ -75,14 +75,14 @@ public class MainFrame extends javax.swing.JFrame {
         lstMIBs = query.getResultList();
         for(Mib mib : lstMIBs)
         {
-            cmbMIBs.addItem(mib.getMibName());
+            cmbMIBs.addItem(mib);
         } 
         cmbOIDs.addItem("Select an OID");
         Query query2 = em.createNamedQuery("Oid.findAll");
         lstOIDs = query2.getResultList();
         for(model.Oid oid : lstOIDs)
         {
-            cmbOIDs.addItem(oid.getOidName());
+            cmbOIDs.addItem(oid);
         } 
         
     }
@@ -99,38 +99,7 @@ public class MainFrame extends javax.swing.JFrame {
     
     public String getAsString(OID oid) throws IOException {
         ResponseEvent responseEvent = get(new OID[]{oid});        
-        PDU responsePDU=null;                
-        String sVar = null;
-        if (responseEvent != null)
-        {
-            responsePDU = responseEvent.getResponse();
-            if ( responsePDU != null)
-            {
-                Vector <VariableBinding> tmpv = (Vector <VariableBinding>) responsePDU.getVariableBindings();
-                if(tmpv != null)
-                {
-                    for(int k=0; k <tmpv.size();k++)
-                    {
-                        VariableBinding vb = (VariableBinding) tmpv.get(k);
-                        String output = null;
-                        if ( vb.isException())
-                        {
-
-                            String errorstring = vb.getVariable().getSyntaxString();
-                            System.out.println("Error:"+errorstring);
-                        }
-                        else
-                        {
-                            String sOid = vb.getOid().toString();
-                            Variable var = vb.getVariable();
-                            OctetString oct = new OctetString((OctetString)var);
-                            sVar =  oct.toString();                            
-                        }
-                    }
-                }         
-            }
-        }
-        return sVar;
+        return responseEvent.getResponse().get(0).getVariable().toString();
     }
     
     public void getAsString(OID oids, ResponseListener listener){
@@ -444,10 +413,14 @@ public class MainFrame extends javax.swing.JFrame {
         try {
             txtAreaResponse.append("-----------------------\n");
             if(rbtnGet.isSelected()){
-                txtAreaResponse.append(getAsString(new OID("1.3.6.1.2.1.1.4.0")) +"\n");
+                Query query = em.createNativeQuery("Oid.findByOidName");
+                query.setParameter("oidName",((model.Oid)cmbOIDs.getSelectedItem()).getOidIndex() );
+                String oidd = ((model.Oid)cmbOIDs.getSelectedItem()).getOidIndex();
+                
+                txtAreaResponse.append(getAsString(new OID(oidd+".0")) +"\n");
             }            
             txtAreaResponse.append("-----------------------\n");
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
       

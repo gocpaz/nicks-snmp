@@ -115,7 +115,7 @@ public class Oid implements Serializable {
 
     @Override
     public String toString() {
-        return "model.Oid[ oidId=" + oidId + " ]";
+        return oidName;
     }
     
 }
