@@ -1,0 +1,25 @@
+Wed May 22 12:48:33 EEST 2013 : Apache Derby Network Server - 10.8.1.2 - (1095077) started and ready to accept connections on port 1527
+----------------------------------------------------------------
+Wed May 22 12:48:34 EEST 2013:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.8.1.2 - (1095077): instance a816c00e-013e-cba3-db9f-00000f01abb9 
+on database directory C:\Users\Nikolaos\PAPEI\Β' εξάμηνο\Σχεδιασμός και Διαχείριση Δικτύων Υπολογιστών\Tsagkaris\NicksSNMP\nicksSNMPDB  with class loader sun.misc.Launcher$AppClassLoader@4806de4b 
+Loaded from file:/D:/InstalledPrograms/glassfish-3.1.2.2/javadb/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.7.0_13-b20
+user.dir=D:\InstalledPrograms\glassfish-3.1.2.2\javadb
+derby.system.home=C:\Users\Nikolaos\PAPEI\Β' εξάμηνο\Σχεδιασμός και Διαχείριση Δικτύων Υπολογιστών\Tsagkaris\NicksSNMP
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Wed May 22 12:48:38 EEST 2013:
+Shutting down instance a816c00e-013e-cba3-db9f-00000f01abb9 on database directory C:\Users\Nikolaos\PAPEI\Β' εξάμηνο\Σχεδιασμός και Διαχείριση Δικτύων Υπολογιστών\Tsagkaris\NicksSNMP\nicksSNMPDB with class loader sun.misc.Launcher$AppClassLoader@4806de4b 
+Wed May 22 12:48:38 EEST 2013 Thread[DRDAConnThread_4,5,main] (DATABASE = nicksSNMPDB), (DRDAID = {2}), Database 'nicksSNMPDB' shutdown.
+----------------------------------------------------------------
+Wed May 22 12:48:51 EEST 2013:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.8.1.2 - (1095077): instance 6c44409f-013e-cba3-db9f-00000f01abb9 
+on database directory C:\Users\Nikolaos\PAPEI\Β' εξάμηνο\Σχεδιασμός και Διαχείριση Δικτύων Υπολογιστών\Tsagkaris\NicksSNMP\nicksSNMPDB  with class loader sun.misc.Launcher$AppClassLoader@4806de4b 
+Loaded from file:/D:/InstalledPrograms/glassfish-3.1.2.2/javadb/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.7.0_13-b20
+user.dir=D:\InstalledPrograms\glassfish-3.1.2.2\javadb
+derby.system.home=C:\Users\Nikolaos\PAPEI\Β' εξάμηνο\Σχεδιασμός και Διαχείριση Δικτύων Υπολογιστών\Tsagkaris\NicksSNMP
+Database Class Loader started - derby.database.classpath=''
