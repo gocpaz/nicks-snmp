@@ -23,15 +23,15 @@ public class RptContainer extends JFrame{
     {
         if(setup.equalsIgnoreCase("Report1"))
         {
-           this.setSize(500,320);
+           this.setSize(1000,600);
         }
         else if(setup.equalsIgnoreCase("Report2"))
         {
-            this.setSize(500,320);
+            this.setSize(1000,600);
         }
         else if(setup.equalsIgnoreCase("Report3"))
         {
-            this.setSize(760,500);
+            this.setSize(1000,600);
         }
     }
 }

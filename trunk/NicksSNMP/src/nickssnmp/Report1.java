@@ -5,14 +5,32 @@
 package nickssnmp;
 
 import java.beans.Beans;
+import java.io.IOException;
+import java.util.List;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.swing.JFrame;
+import org.snmp4j.CommunityTarget;
+import org.snmp4j.PDU;
+import org.snmp4j.Snmp;
+import org.snmp4j.event.ResponseEvent;
+import org.snmp4j.mp.SnmpConstants;
+import org.snmp4j.smi.Address;
+import org.snmp4j.smi.OID;
+import org.snmp4j.smi.OctetString;
+import org.snmp4j.smi.Variable;
+import org.snmp4j.smi.VariableBinding;
 
 /**
  *
  * @author Nikolaos
  */
 public class Report1 extends javax.swing.JPanel {
-
+   
+    SnmpUtil snmpUtil = null;    
     private JFrame parentFrame;
     /**
      * Creates new form Report1
@@ -21,10 +39,43 @@ public class Report1 extends javax.swing.JPanel {
         initComponents();        
     }
 
-    public Report1(JFrame parentFrame) {
+    public Report1(JFrame parentFrame, SnmpUtil snmpUtil) {
         this.parentFrame = parentFrame;
-        initComponents();       
+        this.snmpUtil = snmpUtil;        
+        initComponents();  
+        
+        report();        
     }
+    
+    private void report(){
+        
+//        String result = null;
+//        
+//        snmpUtil.setTargetVersion(1);
+//        try {
+//            
+//            Query query = em.createNamedQuery("Oid.findByOidName");
+//            query.setParameter("oidName","sysDescr");                  
+//            
+//            result = snmpUtil.getPrimitiveData( ((Model.Oid) query.getResultList().get(0) ).getOidIndex() + ".0");
+//            txtDescr.setText(result);
+//                        
+//            query = em.createNamedQuery("Oid.findByOidName");
+//            query.setParameter("oidName","ifTable");
+//            
+//            snmpUtil.getIfTableRfc1213Data(((Model.Oid) query.getResultList().get(0) ).getOidIndex() + ".0");
+//            
+//        } catch (IOException ex) {
+//            Logger.getLogger(Report1.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+        //SnmpUtil obj = new SnmpUtil("83.212.238.231","public",1,1000);
+        String[] arr = { "1.3.6.1.2.1.2.2.1.2"};
+			String arrGetTable = snmpUtil.snmpGetTable(arr);
+			System.out.println("\nGETTABLE RESPONSE");
+			System.out.println(arrGetTable);
+                        
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -34,22 +85,21 @@ public class Report1 extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        em = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("NicksSNMPPU").createEntityManager();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jTextField1 = new javax.swing.JTextField();
         jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
         jTextField4 = new javax.swing.JTextField();
         jTextField5 = new javax.swing.JTextField();
-        jTextField6 = new javax.swing.JTextField();
+        txtDescr = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
 
         jLabel2.setText("1. System Description");
@@ -57,8 +107,6 @@ public class Report1 extends javax.swing.JPanel {
         jLabel3.setText("2. System Name");
 
         jLabel1.setText("System Location");
-
-        jLabel4.setText("System Services");
 
         jLabel5.setText("3. System Contact");
 
@@ -90,13 +138,11 @@ public class Report1 extends javax.swing.JPanel {
 
         jTextField2.setText("jTextField2");
 
-        jTextField3.setText("jTextField3");
-
         jTextField4.setText("jTextField4");
 
         jTextField5.setText("jTextField5");
 
-        jTextField6.setText("jTextField6");
+        txtDescr.setText("jTextField6");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -114,17 +160,14 @@ public class Report1 extends javax.swing.JPanel {
                             .addComponent(jLabel5)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(10, 10, 10)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel1))))
+                                .addComponent(jLabel1)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTextField1)
                             .addComponent(jTextField2)
-                            .addComponent(jTextField3)
                             .addComponent(jTextField4)
                             .addComponent(jTextField5)
-                            .addComponent(jTextField6))))
+                            .addComponent(txtDescr))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -133,7 +176,7 @@ public class Report1 extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtDescr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -144,10 +187,6 @@ public class Report1 extends javax.swing.JPanel {
                     .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -155,8 +194,8 @@ public class Report1 extends javax.swing.JPanel {
                     .addComponent(jLabel6)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
-                .addGap(16, 16, 16))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 291, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         jTabbedPane1.addTab("Ερώτημα 1ο", jPanel1);
@@ -186,10 +225,10 @@ public class Report1 extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.persistence.EntityManager em;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
@@ -199,9 +238,8 @@ public class Report1 extends javax.swing.JPanel {
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
+    private javax.swing.JTextField txtDescr;
     // End of variables declaration//GEN-END:variables
 }
