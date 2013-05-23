@@ -6,10 +6,10 @@
     <class>Model.IfTableRfc1213</class>
     <class>Model.Oid</class>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/nicksSNMPDB"/>
-      <property name="javax.persistence.jdbc.password" value="nikos"/>
-      <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.ClientDriver"/>
-      <property name="javax.persistence.jdbc.user" value="nikos"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:derby:nicksSNMPDB;create=true"/>
+      <property name="javax.persistence.jdbc.password" value="nicksSNMPDB"/>
+      <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver"/>
+      <property name="javax.persistence.jdbc.user" value="nicksSNMPDB"/>
     </properties>
   </persistence-unit>
 </persistence>
