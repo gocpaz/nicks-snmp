@@ -6,11 +6,14 @@ package nickssnmp;
 
 import Model.IfTableRfc1213;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import static nickssnmp.NicksSNMP.parseStrToOID;
 import org.snmp4j.CommunityTarget;
 import org.snmp4j.PDU;
@@ -196,7 +199,7 @@ public class SnmpUtil {
 /*
     *  SNMP getTable operation
     */
-   public String snmpGetTable(String[] oid) 
+   public List snmpGetTable(String[] oid) 
    {
            // Invoke the listen() method on the Snmp object
            try 
@@ -222,11 +225,8 @@ public class SnmpUtil {
 
            // Transfer output to a data structure
            List list = utils.getTable(target, arr, lowerIndex, upperIndex);
-
-           // Dump the response into an array called "responseArray"
-
-           System.out.println(list.get(0));
-           return responseString;
+        
+           return list;
    }	
  /*
     *  SNMP get/getNext operation logic
@@ -257,7 +257,36 @@ public class SnmpUtil {
            PDU responsePdu = response.getResponse(); 
            if(responsePdu.getErrorStatus() == 0)
            {
-                   responseString = responsePdu.toString();
+                  
+                Vector <VariableBinding> tmpv = (Vector <VariableBinding>) responsePdu.getVariableBindings();
+                if(tmpv != null)
+                {
+                    for(int k=0; k <tmpv.size();k++)
+                    {
+                        VariableBinding vb = (VariableBinding) tmpv.get(k);
+                        String output = null;
+                        if ( vb.isException())
+                        {
+
+                            String errorstring = vb.getVariable().getSyntaxString();
+                          //  System.out.println("Error:"+errorstring);
+                        }
+                        else
+                        {
+                            String sOid = vb.getOid().toString();
+                            Variable var = vb.getVariable();
+                            try{
+                                OctetString oct = new OctetString((OctetString)var);
+                                responseString =  oct.toString();
+                            }catch(Exception e){
+                                responseString = var.toString();
+                            }
+                            
+
+                           // System.out.println("success:"+sVar);
+                        }
+                    }
+                }                
            }
            else
            {
@@ -268,7 +297,128 @@ public class SnmpUtil {
                    //Extract the response
            }
    }  
-    public void setTargetVersion(int version){
+   public void insertIfTableRFC1213IntoDB(EntityManager em,List list){
+       em.getTransaction().begin();
+      //Clear table       
+      Query query = em.createNativeQuery("DELETE FROM IF_TABLE_RFC1213");
+      query.executeUpdate();
+      
+       IfTableRfc1213 ifTable = null;
+      
+        Iterator<TableEvent> tEvent = list.iterator();
+        while(tEvent.hasNext()) {
+           
+           ifTable = new IfTableRfc1213();
+           
+           TableEvent event = (TableEvent) tEvent.next();
+           System.out.println("Table event:::error::"+ event.getErrorMessage());
+           System.out.println("Table event::reportpdu:::"+ event.getReportPDU());
+           System.out.println("Table event:::index::"+ event.getIndex());
+          VariableBinding[] vb = event.getColumns();
+           //System.out.println("vb:::"+vb.getOid());
+           for (int count=0; count< vb.length;count++) {
+              if (vb[count] != null && vb[count].getOid() != null)
+              {
+
+                System.out.println("Table event::oid:::"+vb[count].getOid());
+                System.out.println("Table event::value::"+vb[count].getVariable());               
+
+                String ifVal = vb[count].getOid()+"";              
+                 //ifType
+                 if(ifVal.startsWith("1.3.6.1.2.1.2.2.1.3")){
+                        ifTable.setIfType(new BigInteger( vb[count].getVariable()+""));
+                 }
+                 //ifMtu
+                 else if(ifVal.startsWith("1.3.6.1.2.1.2.2.1.4")){
+                        ifTable.setIfMtu(new BigInteger( vb[count].getVariable()+""));
+                 }
+                 //ifSpeed
+                 else if(ifVal.startsWith("1.3.6.1.2.1.2.2.1.5")){
+                        ifTable.setIfSpeed(new BigInteger( vb[count].getVariable()+""));
+                 }
+                 //ifPhysAddress
+                 else if(ifVal.startsWith("1.3.6.1.2.1.2.2.1.6")){
+                        ifTable.setIfPhysAddress(vb[count].getVariable()+"");
+                 }
+                 //ifAdminStatus
+                 else if(ifVal.startsWith("1.3.6.1.2.1.2.2.1.7")){
+                        ifTable.setIfAdminStatus(new BigInteger( vb[count].getVariable()+""));
+                 }
+                 //ifOperStatus
+                 else if(ifVal.startsWith("1.3.6.1.2.1.2.2.1.8")){
+                        ifTable.setIfOperStatus(new BigInteger( vb[count].getVariable()+""));
+                 }
+                 //ifLastChange
+                 else if(ifVal.startsWith("1.3.6.1.2.1.2.2.1.9")){
+                        ifTable.setIfLastChange(vb[count].getVariable()+"");
+                 }
+                 //ifInOctets
+                 else if(ifVal.startsWith("1.3.6.1.2.1.2.2.1.10")){
+                        ifTable.setIfInOctets(new BigInteger( vb[count].getVariable()+""));
+                 }
+                 //ifInUcastPkts
+                 else if(ifVal.startsWith("1.3.6.1.2.1.2.2.1.11")){
+                        ifTable.setIfInUcastPkts(new BigInteger( vb[count].getVariable()+""));
+                 }
+                 //ifInNUcastPkts
+                 else if(ifVal.startsWith("1.3.6.1.2.1.2.2.1.12")){
+                        ifTable.setIfInNucastPkts(new BigInteger( vb[count].getVariable()+""));
+                 }
+                 //ifInDiscards
+                 else if(ifVal.startsWith("1.3.6.1.2.1.2.2.1.13")){
+                        ifTable.setIfInDiscards(new BigInteger( vb[count].getVariable()+""));
+                 }
+                 //ifInErrors
+                 else if(ifVal.startsWith("1.3.6.1.2.1.2.2.1.14")){
+                        ifTable.setIfInErrors(new BigInteger( vb[count].getVariable()+""));
+                 }
+                 //ifInUnknownProtos
+                 else if(ifVal.startsWith("1.3.6.1.2.1.2.2.1.15")){
+                        ifTable.setIfInUnknownProtos(new BigInteger( vb[count].getVariable()+""));
+                 }
+                 //ifOutOctets
+                 else if(ifVal.startsWith("1.3.6.1.2.1.2.2.1.16")){
+                        ifTable.setIfOutOctets(new BigInteger( vb[count].getVariable()+""));
+                 }
+                 //ifOutUcastPkts
+                 else if(ifVal.startsWith("1.3.6.1.2.1.2.2.1.17")){
+                        ifTable.setIfOutUcastPkts(new BigInteger( vb[count].getVariable()+""));
+                 }
+                 //ifOutNUcastPkts
+                 else if(ifVal.startsWith("1.3.6.1.2.1.2.2.1.18")){
+                        ifTable.setIfOutNucastPkts(new BigInteger( vb[count].getVariable()+""));
+                 }
+                 //ifOutDiscards
+                 else if(ifVal.startsWith("1.3.6.1.2.1.2.2.1.19")){
+                        ifTable.setIfOutDiscards(new BigInteger( vb[count].getVariable()+""));
+                 }
+                 //ifOutErrors
+                 else if(ifVal.startsWith("1.3.6.1.2.1.2.2.1.20")){
+                        ifTable.setIfOutErrors(new BigInteger( vb[count].getVariable()+""));
+                 }
+                 //ifOutQLen
+                 else if(ifVal.startsWith("1.3.6.1.2.1.2.2.1.21")){
+                        ifTable.setIfOutQLen(new BigInteger( vb[count].getVariable()+""));
+                 }
+                 //ifSpecific
+                 else if(ifVal.startsWith("1.3.6.1.2.1.2.2.1.22")){
+                        ifTable.setIfSpecific(vb[count].getVariable()+"");
+                 }
+                 //ifIndex
+                 else if(ifVal.startsWith("1.3.6.1.2.1.2.2.1.1")){
+                       ifTable.setIfIndex(vb[count].getVariable().toInt());
+                 }
+                 //ifDescr
+                 else if(ifVal.startsWith("1.3.6.1.2.1.2.2.1.2")){
+                        ifTable.setIfDescr(vb[count].getVariable()+"");                      
+                 }
+              }
+           }
+           em.persist(ifTable);           
+        }
+        em.getTransaction().commit();        
+   }
+   public void setTargetVersion(int version){
         switch(version){
             case 1:
                 target.setVersion(SnmpConstants.version1);
