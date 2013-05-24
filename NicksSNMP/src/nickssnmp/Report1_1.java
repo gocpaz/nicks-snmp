@@ -4,78 +4,89 @@
  */
 package nickssnmp;
 
-import java.beans.Beans;
-import java.io.IOException;
-import java.util.List;
-import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.swing.JFrame;
-import org.snmp4j.CommunityTarget;
-import org.snmp4j.PDU;
-import org.snmp4j.Snmp;
-import org.snmp4j.event.ResponseEvent;
-import org.snmp4j.mp.SnmpConstants;
-import org.snmp4j.smi.Address;
-import org.snmp4j.smi.OID;
-import org.snmp4j.smi.OctetString;
-import org.snmp4j.smi.Variable;
-import org.snmp4j.smi.VariableBinding;
+import javax.swing.table.TableModel;
 
 /**
  *
  * @author Nikolaos
  */
-public class Report1 extends javax.swing.JPanel {
+public class Report1_1 extends javax.swing.JPanel {
    
     SnmpUtil snmpUtil = null;    
     private JFrame parentFrame;
     /**
      * Creates new form Report1
      */
-    public Report1() {
+    public Report1_1() {
         initComponents();        
     }
 
-    public Report1(JFrame parentFrame, SnmpUtil snmpUtil) {
+    public Report1_1(JFrame parentFrame, SnmpUtil snmpUtil) {
         this.parentFrame = parentFrame;
         this.snmpUtil = snmpUtil;        
-        initComponents();  
+        initComponents();          
         
         report();        
+        
+        tblIfTable.setModel(getTableModel());
     }
     
     private void report(){
         
-//        String result = null;
-//        
-//        snmpUtil.setTargetVersion(1);
-//        try {
-//            
-//            Query query = em.createNamedQuery("Oid.findByOidName");
-//            query.setParameter("oidName","sysDescr");                  
-//            
-//            result = snmpUtil.getPrimitiveData( ((Model.Oid) query.getResultList().get(0) ).getOidIndex() + ".0");
-//            txtDescr.setText(result);
-//                        
-//            query = em.createNamedQuery("Oid.findByOidName");
-//            query.setParameter("oidName","ifTable");
-//            
-//            snmpUtil.getIfTableRfc1213Data(((Model.Oid) query.getResultList().get(0) ).getOidIndex() + ".0");
-//            
-//        } catch (IOException ex) {
-//            Logger.getLogger(Report1.class.getName()).log(Level.SEVERE, null, ex);
+        String result = null;
+        
+        snmpUtil.setTargetVersion(1);
+                 
+        Query query = em.createNamedQuery("Oid.findByOidName");
+        query.setParameter("oidName","sysDescr");                              
+        result = snmpUtil.snmpGet(((Model.Oid) query.getResultList().get(0) ).getOidIndex()+ ".0");
+        txtDescr.setText(result);
+
+        query.setParameter("oidName","sysName");                              
+        result = snmpUtil.snmpGet( ((Model.Oid) query.getResultList().get(0) ).getOidIndex() + ".0");
+        txtName.setText(result);
+
+        query.setParameter("oidName","sysLocation");                              
+        result = snmpUtil.snmpGet( ((Model.Oid) query.getResultList().get(0) ).getOidIndex() + ".0");
+        txtLocation.setText(result);
+
+        query.setParameter("oidName","sysContact");                              
+        result = snmpUtil.snmpGet( ((Model.Oid) query.getResultList().get(0) ).getOidIndex() + ".0");
+        txtContact.setText(result);
+
+        query.setParameter("oidName","ifNumber");                              
+        result = snmpUtil.snmpGet( ((Model.Oid) query.getResultList().get(0) ).getOidIndex() + ".0");
+        txtIfNumber.setText(result);
+
+        query = em.createNamedQuery("Oid.findByOidName");
+        query.setParameter("oidName","ifTable");
+
+        String[] arr = new String[22];
+        for(int i = 1; i<23 ; i++)
+        {
+            arr[i-1] = "1.3.6.1.2.1.2.2.1."+i;
+        }                                   
+        snmpUtil.insertIfTableRFC1213IntoDB(em,snmpUtil.snmpGetTable(arr));
+	
+//        query = em.createNativeQuery("Select * from data");
+//        List<IfTableRfc1213> results = query.getResultList();
+//        tblIfTable.
+//        while (rs.next()) {
+//        Vector row = new Vector(columns);
+//        for (int i = 1; i <= columns; i++){
+//        row.addElement( rs.getObject(i) );
 //        }
-        //SnmpUtil obj = new SnmpUtil("83.212.238.231","public",1,1000);
-        String[] arr = { "1.3.6.1.2.1.2.2.1.2"};
-			String arrGetTable = snmpUtil.snmpGetTable(arr);
-			System.out.println("\nGETTABLE RESPONSE");
-			System.out.println(arrGetTable);
-                        
+//        data.addElement( row );
+//        }
+//        rs.close();
+//        stmt.close();
+        
     }
-    
+    private TableModel getTableModel() {        
+        return new Table_1_1_Model(em);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -94,13 +105,12 @@ public class Report1 extends javax.swing.JPanel {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
+        tblIfTable = new javax.swing.JTable();
+        txtIfNumber = new javax.swing.JTextField();
+        txtContact = new javax.swing.JTextField();
+        txtLocation = new javax.swing.JTextField();
+        txtName = new javax.swing.JTextField();
         txtDescr = new javax.swing.JTextField();
-        jPanel2 = new javax.swing.JPanel();
 
         jLabel2.setText("1. System Description");
 
@@ -112,7 +122,7 @@ public class Report1 extends javax.swing.JPanel {
 
         jLabel6.setText("4. Number of Interfaces");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblIfTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -132,15 +142,15 @@ public class Report1 extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblIfTable);
 
-        jTextField1.setText("jTextField1");
+        txtIfNumber.setText("jTextField1");
 
-        jTextField2.setText("jTextField2");
+        txtContact.setText("jTextField2");
 
-        jTextField4.setText("jTextField4");
+        txtLocation.setText("jTextField4");
 
-        jTextField5.setText("jTextField5");
+        txtName.setText("jTextField5");
 
         txtDescr.setText("jTextField6");
 
@@ -163,10 +173,10 @@ public class Report1 extends javax.swing.JPanel {
                                 .addComponent(jLabel1)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField1)
-                            .addComponent(jTextField2)
-                            .addComponent(jTextField4)
-                            .addComponent(jTextField5)
+                            .addComponent(txtIfNumber)
+                            .addComponent(txtContact)
+                            .addComponent(txtLocation)
+                            .addComponent(txtName)
                             .addComponent(txtDescr))))
                 .addContainerGap())
         );
@@ -180,38 +190,25 @@ public class Report1 extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtLocation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtContact, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtIfNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 291, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         jTabbedPane1.addTab("Ερώτημα 1ο", jPanel1);
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 694, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 443, Short.MAX_VALUE)
-        );
-
-        jTabbedPane1.addTab("Ερώτημα 2ο", jPanel2);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -232,14 +229,13 @@ public class Report1 extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
+    private javax.swing.JTable tblIfTable;
+    private javax.swing.JTextField txtContact;
     private javax.swing.JTextField txtDescr;
+    private javax.swing.JTextField txtIfNumber;
+    private javax.swing.JTextField txtLocation;
+    private javax.swing.JTextField txtName;
     // End of variables declaration//GEN-END:variables
 }

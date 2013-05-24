@@ -42,16 +42,9 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
+          <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="btnRpt1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btnRpt2" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btnRpt3" min="-2" max="-2" attributes="0"/>
-                  </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -67,8 +60,18 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="txtPort" min="-2" pref="37" max="-2" attributes="0"/>
                   </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                          <Component id="btnRpt_1_2" alignment="0" max="32767" attributes="0"/>
+                          <Component id="btnRpt_1_1" alignment="0" max="32767" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="btnRpt2" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="btnRpt3" min="-2" max="-2" attributes="0"/>
+                  </Group>
               </Group>
-              <EmptySpace pref="490" max="32767" attributes="0"/>
+              <EmptySpace pref="488" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -87,11 +90,13 @@
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="btnRpt1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnRpt_1_1" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnRpt2" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnRpt3" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="407" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="btnRpt_1_2" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="378" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -115,12 +120,12 @@
         <Property name="text" type="java.lang.String" value="Port"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="btnRpt1">
+    <Component class="javax.swing.JButton" name="btnRpt_1_1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Report 1"/>
+        <Property name="text" type="java.lang.String" value="Report 1.1"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRpt1ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRpt_1_1ActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnRpt2">
@@ -151,7 +156,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="txtIP4">
       <Properties>
-        <Property name="text" type="java.lang.String" value="231"/>
+        <Property name="text" type="java.lang.String" value="193"/>
         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[24, 20]"/>
         </Property>
@@ -164,6 +169,14 @@
           <Dimension value="[24, 20]"/>
         </Property>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnRpt_1_2">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Report 1.2"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRpt_1_2ActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

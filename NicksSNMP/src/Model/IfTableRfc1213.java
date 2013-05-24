@@ -48,7 +48,14 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "IfTableRfc1213.findByIfPhysAddress", query = "SELECT i FROM IfTableRfc1213 i WHERE i.ifPhysAddress = :ifPhysAddress"),
     @NamedQuery(name = "IfTableRfc1213.findByIfAdminStatus", query = "SELECT i FROM IfTableRfc1213 i WHERE i.ifAdminStatus = :ifAdminStatus"),
     @NamedQuery(name = "IfTableRfc1213.findByIfOperStatus", query = "SELECT i FROM IfTableRfc1213 i WHERE i.ifOperStatus = :ifOperStatus"),
-    @NamedQuery(name = "IfTableRfc1213.findByIfLastChange", query = "SELECT i FROM IfTableRfc1213 i WHERE i.ifLastChange = :ifLastChange")})
+    @NamedQuery(name = "IfTableRfc1213.findByIfLastChange", query = "SELECT i FROM IfTableRfc1213 i WHERE i.ifLastChange = :ifLastChange"),
+    @NamedQuery(name = "IfTableRfc1213.findAllUp", query = "SELECT COUNT(i.ifOperStatus) FROM IfTableRfc1213 i WHERE i.ifOperStatus = 1"),
+    @NamedQuery(name = "IfTableRfc1213.findAllDown", query = "SELECT COUNT(i.ifOperStatus) FROM IfTableRfc1213 i WHERE i.ifOperStatus = 2"),
+    @NamedQuery(name = "IfTableRfc1213.findAllTesting", query = "SELECT COUNT(i.ifOperStatus) FROM IfTableRfc1213 i WHERE i.ifOperStatus = 3"),
+    @NamedQuery(name = "IfTableRfc1213.findMostActiveInterfaces", query = "SELECT i FROM IfTableRfc1213 i  "+
+                                                                          "ORDER BY (CASE WHEN i.ifInOctets IS NULL THEN 0 ELSE i.ifInOctets END) + "+
+                                                                          "(CASE WHEN i.ifInOctets IS NULL THEN 0 ELSE i.ifInOctets END) DESC")
+})
 public class IfTableRfc1213 implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
