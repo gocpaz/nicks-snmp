@@ -126,4 +126,28 @@ public class RFCUtils {
         }        
         return result;
     }
+    public static String getTcpRtoAlgorithm(int i )
+    {
+        String result;
+        
+        switch (i){
+            case 1:
+                result = "other";
+                break;
+            case 2:
+                result = "a constant rto"; //constant
+                break;                
+            case 3:
+                result = "MIL-STD-1778, Appendix B"; //rsre
+                break;
+            case 4:
+                result = "Van Jacobson's algorithm [10]"; //vanj
+                break;
+            default:
+                result = "CHANGE "+i;
+                break;                
+        }
+        return result;
+    }
+       
 }

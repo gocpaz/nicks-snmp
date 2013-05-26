@@ -18,15 +18,17 @@ public class Report1_2 extends javax.swing.JPanel {
 
     SnmpUtil snmpUtil = null;    
     private JFrame parentFrame;
+    private boolean accessDB = false;
     /**
      * Creates new form Report1_2
      */
     public Report1_2() {
         initComponents();
     }
-    public Report1_2(JFrame parentFrame, SnmpUtil snmpUtil) {
+    public Report1_2(JFrame parentFrame, SnmpUtil snmpUtil, boolean accessDB) {
         this.parentFrame = parentFrame;
         this.snmpUtil = snmpUtil;        
+        this.accessDB = accessDB;
         initComponents();          
         
         report();        
@@ -43,7 +45,10 @@ public class Report1_2 extends javax.swing.JPanel {
         {
             arr[i-1] = "1.3.6.1.2.1.2.2.1."+i;
         }                                   
-        //snmpUtil.insertIfTableRFC1213IntoDB(em,snmpUtil.snmpGetTable(arr));
+        if(accessDB)
+        {
+            snmpUtil.insertIfTableRFC1213IntoDB(em,snmpUtil.snmpGetTable(arr));
+        }
         
         Query query = em.createNamedQuery("IfTableRfc1213.findAllUp");
         result = query.getSingleResult().toString();          
@@ -60,7 +65,7 @@ public class Report1_2 extends javax.swing.JPanel {
         txtTesting.setText(result);
         testing = Integer.parseInt(result);
                 
-        float percentage = up/(up+down+testing);
+        float percentage = (up/(up+down+testing))*100;
         DecimalFormat df = new DecimalFormat("#.##");
         txtPercentage.setText( df.format(percentage) +"%");
         

@@ -59,6 +59,8 @@
                       <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="txtPort" min="-2" pref="37" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="chkBoxDB" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
@@ -66,19 +68,24 @@
                           <Component id="btnRpt_1_1" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btnRpt2" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btnRpt3" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Component id="btnRpt_2_1" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="btnRpt3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="btnRpt_2_2" min="-2" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
               </Group>
-              <EmptySpace pref="488" max="32767" attributes="0"/>
+              <EmptySpace pref="375" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="txtIP1" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -87,16 +94,20 @@
                   <Component id="txtIP3" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="txtIP4" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="txtPort" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="chkBoxDB" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="btnRpt_1_1" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="btnRpt2" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnRpt_2_1" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnRpt3" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="btnRpt_1_2" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="378" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="btnRpt_1_2" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnRpt_2_2" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace pref="376" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -128,10 +139,13 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRpt_1_1ActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="btnRpt2">
+    <Component class="javax.swing.JButton" name="btnRpt_2_1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Report 2"/>
+        <Property name="text" type="java.lang.String" value="Report 2.1"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRpt_2_1ActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnRpt3">
       <Properties>
@@ -156,7 +170,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="txtIP4">
       <Properties>
-        <Property name="text" type="java.lang.String" value="193"/>
+        <Property name="text" type="java.lang.String" value="129"/>
         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[24, 20]"/>
         </Property>
@@ -176,6 +190,20 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRpt_1_2ActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="chkBoxDB">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Get New DB Data"/>
+        <Property name="horizontalTextPosition" type="int" value="2"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnRpt_2_2">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Report 2.2"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRpt_2_2ActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>
