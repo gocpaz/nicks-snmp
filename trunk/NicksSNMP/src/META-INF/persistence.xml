@@ -5,6 +5,7 @@
     <class>Model.Mib</class>
     <class>Model.IfTableRfc1213</class>
     <class>Model.Oid</class>
+    <class>Model.TcpConnTableRfc1213</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:derby:nicksSNMPDB;create=true"/>
       <property name="javax.persistence.jdbc.password" value="nicksSNMPDB"/>

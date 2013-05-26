@@ -5,6 +5,7 @@
 package nickssnmp;
 
 import Model.IfTableRfc1213;
+import Model.TcpConnTableRfc1213;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -35,7 +36,8 @@ import org.snmp4j.util.TableUtils;
 
 /**
  *
- * @author Nikolaos
+ * @author https://forums.oracle.com/forums/thread.jspa?threadID=1146477 
+ * @author Nikolas Fragos
  */
 public class SnmpUtil {
     
@@ -81,7 +83,7 @@ public class SnmpUtil {
             else
                     target.setCommunity(new OctetString(commString));		
     }
-	
+	  
     public IfTableRfc1213 getIfTableRfc1213Data(String OID)
     {
         IfTableRfc1213 ifTable = new IfTableRfc1213();                
@@ -297,6 +299,59 @@ public class SnmpUtil {
                    //Extract the response
            }
    }  
+   public void insertTcpConnTableRFC1213IntoDB(EntityManager em,List list){
+       em.getTransaction().begin();
+      //Clear table       
+      Query query = em.createNativeQuery("DELETE FROM TCP_CONN_TABLE_RFC1213");
+      query.executeUpdate();
+      
+       TcpConnTableRfc1213 tcpTable = null;
+      
+        Iterator<TableEvent> tEvent = list.iterator();
+        while(tEvent.hasNext()) {
+           
+           tcpTable = new TcpConnTableRfc1213();
+           
+           TableEvent event = (TableEvent) tEvent.next();
+           System.out.println("Table event:::error::"+ event.getErrorMessage());
+           System.out.println("Table event::reportpdu:::"+ event.getReportPDU());
+           System.out.println("Table event:::index::"+ event.getIndex());
+          VariableBinding[] vb = event.getColumns();
+           //System.out.println("vb:::"+vb.getOid());
+           for (int count=0; count< vb.length;count++) {
+              if (vb[count] != null && vb[count].getOid() != null)
+              {
+
+                System.out.println("Table event::oid:::"+vb[count].getOid());
+                System.out.println("Table event::value::"+vb[count].getVariable());               
+
+                String ifVal = vb[count].getOid()+"";              
+                 //tcpConnState
+                 if(ifVal.startsWith("1.3.6.1.2.1.6.13.1.1")){
+                        tcpTable.setState(Integer.parseInt(vb[count].getVariable()+""));
+                 }
+                 //tcpConnLocalAddress
+                 else if(ifVal.startsWith("1.3.6.1.2.1.6.13.1.2")){
+                        tcpTable.setLocalAddress( vb[count].getVariable()+"");
+                 }
+                 //tcpConnLocalPort
+                 else if(ifVal.startsWith("1.3.6.1.2.1.6.13.1.3")){
+                        tcpTable.setLocalPort(Integer.parseInt( vb[count].getVariable()+""));
+                 }
+                 //tcpConnRemAddress
+                 else if(ifVal.startsWith("1.3.6.1.2.1.6.13.1.4")){
+                        tcpTable.setRemAddress(vb[count].getVariable()+"");
+                 }
+                 //tcpConnRemPort
+                 else if(ifVal.startsWith("1.3.6.1.2.1.6.13.1.5")){
+                        tcpTable.setRemPort(Integer.parseInt( vb[count].getVariable()+""));
+                 }                 
+              }
+           }
+           em.persist(tcpTable);           
+        }
+        em.getTransaction().commit();        
+   }
    public void insertIfTableRFC1213IntoDB(EntityManager em,List list){
        em.getTransaction().begin();
       //Clear table       

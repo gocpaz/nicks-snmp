@@ -47,13 +47,15 @@ public class MainMenu extends javax.swing.JFrame {
         txtIP1 = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         btnRpt_1_1 = new javax.swing.JButton();
-        btnRpt2 = new javax.swing.JButton();
+        btnRpt_2_1 = new javax.swing.JButton();
         btnRpt3 = new javax.swing.JButton();
         txtIP2 = new javax.swing.JTextField();
         txtIP3 = new javax.swing.JTextField();
         txtIP4 = new javax.swing.JTextField();
         txtPort = new javax.swing.JTextField();
         btnRpt_1_2 = new javax.swing.JButton();
+        chkBoxDB = new javax.swing.JCheckBox();
+        btnRpt_2_2 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -74,7 +76,12 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
 
-        btnRpt2.setText("Report 2");
+        btnRpt_2_1.setText("Report 2.1");
+        btnRpt_2_1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRpt_2_1ActionPerformed(evt);
+            }
+        });
 
         btnRpt3.setText("Report 3");
 
@@ -84,7 +91,7 @@ public class MainMenu extends javax.swing.JFrame {
         txtIP3.setText("238");
         txtIP3.setMinimumSize(new java.awt.Dimension(24, 20));
 
-        txtIP4.setText("193");
+        txtIP4.setText("129");
         txtIP4.setMinimumSize(new java.awt.Dimension(24, 20));
 
         txtPort.setText("161");
@@ -94,6 +101,16 @@ public class MainMenu extends javax.swing.JFrame {
         btnRpt_1_2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRpt_1_2ActionPerformed(evt);
+            }
+        });
+
+        chkBoxDB.setText("Get New DB Data");
+        chkBoxDB.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+
+        btnRpt_2_2.setText("Report 2.2");
+        btnRpt_2_2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRpt_2_2ActionPerformed(evt);
             }
         });
 
@@ -125,21 +142,26 @@ public class MainMenu extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtPort, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtPort, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(chkBoxDB))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(btnRpt_1_2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnRpt_1_1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnRpt2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnRpt3)))
-                .addContainerGap(488, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnRpt_2_1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnRpt3))
+                            .addComponent(btnRpt_2_2))))
+                .addContainerGap(375, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(16, 16, 16)
+                .addGap(15, 15, 15)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtIP1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -147,15 +169,18 @@ public class MainMenu extends javax.swing.JFrame {
                     .addComponent(txtIP2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtIP3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtIP4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtPort, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtPort, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(chkBoxDB))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnRpt_1_1)
-                    .addComponent(btnRpt2)
+                    .addComponent(btnRpt_2_1)
                     .addComponent(btnRpt3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnRpt_1_2)
-                .addContainerGap(378, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnRpt_1_2)
+                    .addComponent(btnRpt_2_2))
+                .addContainerGap(376, Short.MAX_VALUE))
         );
 
         pack();
@@ -173,11 +198,29 @@ public class MainMenu extends javax.swing.JFrame {
     private void btnRpt_1_2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRpt_1_2ActionPerformed
         this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
         RptContainer frame = new RptContainer("Report 1.2","Report1");
-        Report1_2 rpt1  =  new Report1_2(frame,new SnmpUtil(txtIP1.getText()+"."+txtIP2.getText()+"."+txtIP3.getText()+"."+txtIP4.getText(),"public",1,5000));
+        Report1_2 rpt1  =  new Report1_2(frame,new SnmpUtil(txtIP1.getText()+"."+txtIP2.getText()+"."+txtIP3.getText()+"."+txtIP4.getText(),"public",1,5000),chkBoxDB.isSelected());
         frame.add(rpt1);
         frame.setVisible(true); 
         this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));  
     }//GEN-LAST:event_btnRpt_1_2ActionPerformed
+
+    private void btnRpt_2_1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRpt_2_1ActionPerformed
+        this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+        RptContainer frame = new RptContainer("Report 2.1","Report2");
+        Report2_1 rpt2  =  new Report2_1(frame,new SnmpUtil(txtIP1.getText()+"."+txtIP2.getText()+"."+txtIP3.getText()+"."+txtIP4.getText(),"public",2,5000),chkBoxDB.isSelected());
+        frame.add(rpt2);
+        frame.setVisible(true); 
+        this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));  
+    }//GEN-LAST:event_btnRpt_2_1ActionPerformed
+
+    private void btnRpt_2_2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRpt_2_2ActionPerformed
+        this.setCursor(new Cursor(Cursor.WAIT_CURSOR));
+        RptContainer frame = new RptContainer("Report 2.2","Report2");
+        Report2_2 rpt2  =  new Report2_2(frame,new SnmpUtil(txtIP1.getText()+"."+txtIP2.getText()+"."+txtIP3.getText()+"."+txtIP4.getText(),"public",2,5000),chkBoxDB.isSelected());
+        frame.add(rpt2);
+        frame.setVisible(true); 
+        this.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));  
+    }//GEN-LAST:event_btnRpt_2_2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -215,10 +258,12 @@ public class MainMenu extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup btnGVersion;
-    private javax.swing.JButton btnRpt2;
     private javax.swing.JButton btnRpt3;
     private javax.swing.JButton btnRpt_1_1;
     private javax.swing.JButton btnRpt_1_2;
+    private javax.swing.JButton btnRpt_2_1;
+    private javax.swing.JButton btnRpt_2_2;
+    private javax.swing.JCheckBox chkBoxDB;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;
